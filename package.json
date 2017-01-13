@@ -1,0 +1,27 @@
+{
+  "name": "game",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+
+  "scripts": {
+    "start": "node index.js"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/outscreen/game.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/outscreen/game/issues"
+  },
+  "homepage": "https://github.com/outscreen/game#readme",
+
+  "dependencies": {
+    "express": "4.14.0",
+    "mongodb": "2.2.0"
+  },
+
+  "devDependencies": {}
+}
