@@ -26,17 +26,19 @@ class User {
             });
     }
 
-    static createRoot(params) {
-        params.hash = hash(params.password);
+    static updateDbUser(params, create) {
+        // TODO validate params
+        params.hash = params.password ? hash(params.password) : params.hash;
         delete params.password;
 
         return db.getOne(config.db.usersTable, { username: params.username })
             .then((existingUser) => {
-                console.log(existingUser)
                 if (existingUser) {
                     return db.update(config.db.usersTable, { username: params.username },
                         { $set: params }).then(() => new User(params));
                 }
+
+                if (!create) return Promise.reject('No such user');
 
                 return db.generateUuid(config.db.usersTable).then((uuid) => {
                     params.uuid = uuid;
@@ -45,19 +47,17 @@ class User {
             });
     }
 
-    static createInstance(params) {
-        if (params.create) {
-            params.hash = hash(params.password);
-            delete params.password;
-            delete params.create;
-            return User.createDbUser(params);
-        }
+    static getDbUser(params, create) {
+        params.hash = params.password ? hash(params.password) : params.hash;
+        delete params.password;
 
         // If only user id passed, try getting the user from db
         const searchParams = typeof params === 'string' ? { uuid: params } : params;
 
-        return db.getUser(searchParams).then((user) => {
-            if (!user) return Promise.reject('No such user');
+        return db.getOne(config.db.usersTable, searchParams).then((user) => {
+            if (!user) {
+                return create ? User.createDbUser(params) : Promise.reject('No such user');
+            }
             return Promise.resolve(new User(user));
         });
     }
