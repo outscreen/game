@@ -1,17 +1,46 @@
 'use strict';
 
+if (([
+        process.env.sessionsecret,
+        process.env.rootuser,
+        process.env.rootpass,
+        process.env.crypto,
+    ]).indexOf(undefined) !== -1) {
+    console.error('Provide all creds');
+    process.exit(1);
+}
+
 const express = require('express');
 var bodyParser = require('body-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 const db = require('./db');
 const User = require('./user');
 const web = require('./web');
+const config = require('./config');
 
 const app = express();
 app.use(bodyParser.json());
 
 db.ready
     .then(() => {
+        // Session
+        app.use(session({
+            secret: process.env.sessionsecret,
+            resave: false,
+            saveUninitialized: false,
+            cookie: {
+                maxAge: 4 * 60 * 60 * 1000, // 4 hours
+            },
+            store: new MongoStore({
+                db: db.db,
+                collection: config.db.sessionsTable,
+                stringify: true,
+                touchAfter: 60 * 60, // 1 hour (seconds)
+            })
+        }));
+
         // Create root user
         User.updateDbUser({
             username: process.env.rootuser,
@@ -23,8 +52,8 @@ db.ready
         // Register paths
         web.forEach((pathConfig) => {
             pathConfig.handlers.forEach((handlerConfig) => {
-                app[handlerConfig.method](`/${pathConfig.path}/${handlerConfig.url}`, (...args) => {
-                    return handlerConfig.handler.apply(this, args);
+                app[handlerConfig.method](`/${pathConfig.path}/${handlerConfig.url}`, (req, res, next) => {
+                    return handlerConfig.handler.call(this, req, res, next);
                 });
                 console.log(`${handlerConfig.method} /${pathConfig.path}/${handlerConfig.url}`);
             });

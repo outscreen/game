@@ -11,10 +11,14 @@ class User {
         this.hash = params.password ? hash(params.password) : params.hash;
         this.email = params.email;
         this.role = params.role;
+        this.uuid = params.uuid;
     }
 
     static createDbUser(params) {
         // TODO validate params
+        params.hash = params.password ? hash(params.password) : params.hash;
+        delete params.password;
+
         return db.getOne(config.db.usersTable, { username: params.username })
             .then((existingUser) => {
                 if (existingUser) return Promise.reject(`User ${params.username} already exists`);

@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const secret = process.env.crypto || 'batman is on the way';
+const secret = process.env.crypto;
 
 const hash = (string) => crypto.createHmac('sha256', secret)
     .update(string)

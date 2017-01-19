@@ -6,8 +6,8 @@ const login = (req, res) => {
     User.getDbUser({
         username: req.body.username,
         password: req.body.password,
-    }).then(() => {
-        // TODO create session
+    }).then((user) => {
+        req.session.userUuid = user.uuid;
         res.status(200).send({ success: true });
     }).catch(() => {
         res.status(401).send('Invalid username or password');
@@ -18,8 +18,8 @@ const create = (req, res) => {
     User.createDbUser({
         username: req.body.username,
         password: req.body.password,
-    }).then(() => {
-        // TODO create session
+    }).then((user) => {
+        req.session.userUuid = user.uuid;
         res.status(200).send({ success: true });
     }).catch((err) => {
         res.status(400).send(err);
@@ -27,7 +27,8 @@ const create = (req, res) => {
 };
 
 const logout = (req, res) => {
-    // UPDATE SESSION
+    delete req.session.userUuid;
+    res.status(200).send({ success: true });
 };
 
 module.exports = [
