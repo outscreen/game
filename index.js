@@ -17,7 +17,7 @@ const MongoStore = require('connect-mongo')(session);
 
 const db = require('./db');
 const User = require('./user');
-const web = require('./web');
+const endpoints = require('./endpoint');
 const config = require('./config');
 
 const app = express();
@@ -50,7 +50,7 @@ db.ready
         });
 
         // Register paths
-        web.forEach((pathConfig) => {
+        endpoints.forEach((pathConfig) => {
             pathConfig.handlers.forEach((handlerConfig) => {
                 app[handlerConfig.method](`/${pathConfig.path}/${handlerConfig.url}`, (req, res, next) => {
                     return handlerConfig.handler.call(this, req, res, next);
