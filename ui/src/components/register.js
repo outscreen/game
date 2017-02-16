@@ -2,13 +2,19 @@
 
 const React = require('react');
 const connect = require('react-redux').connect;
+const bindActionCreators = require('redux').bindActionCreators;
 
-class Index extends React.Component {
+const routeActions = require('../actions/route');
+
+class Register extends React.Component {
+    showLogin() {
+        this.props.route.goTo('login');
+    }
+
     render() {
         return (
             <div className="form">
-                <p>Login</p>
-                <form onSubmit={(e) => this.props.onSubmit(e, this.state)}>
+                <form onSubmit={(e) => this.onSubmit(e, this.state)}>
                     <label><span>Username:</span></label>
                     <div>
                         <input
@@ -24,6 +30,8 @@ class Index extends React.Component {
                         />
                     </div>
                 </form>
+
+                <a href="#" onClick={this.showLogin.bind(this)}>I have an account</a>
             </div>
         );
     }
@@ -31,4 +39,8 @@ class Index extends React.Component {
 
 const mapStateToProps = (state) => ({});
 
-module.exports = connect(mapStateToProps)(Index);
+const mapDispatchToProps = (dispatch) => ({
+    route: bindActionCreators(routeActions, dispatch),
+});
+
+module.exports = connect(mapStateToProps, mapDispatchToProps)(Register);

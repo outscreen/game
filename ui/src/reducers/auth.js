@@ -14,6 +14,7 @@ module.exports = createReducer(initialState, {
     },
 
     login(state, payload) {
+        console.log(123)
         return Object.assign({}, state, {
         });
     },

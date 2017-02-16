@@ -11,6 +11,7 @@ const storeName = 'store';
 
 const initialState = JSON.parse(localStorage.getItem(storeName)) || {};
 const store = createStore(initialState);
+
 store.subscribe(() => {
     localStorage.setItem(storeName, JSON.stringify(store.getState()));
 });
@@ -20,3 +21,5 @@ render((
         <Index/>
     </Provider>
 ), document.getElementById('app'));
+
+window.store = store;

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "build": "npm run build:webpack",
+    "build:webpack": "webpack --config ./ui/config/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -15,26 +16,19 @@
     "url": "https://github.com/outscreen/game/issues"
   },
   "homepage": "https://github.com/outscreen/game#readme",
-
-  "scripts": {
-    "build": "npm run build:webpack",
-    "build:webpack": "webpack --config ./ui/config/webpack.config.js"
-  },
-
   "dependencies": {
-    "react": "15.3.2",
-      "react-bootstrap": "0.30.5",
-      "react-dom": "15.3.2",
-
-    "redux": "3.6.0",
-      "redux-thunk": "2.1.0",
-      "react-redux": "4.4.5",
-
     "body-parser": "^1.15.2",
     "connect-mongo": "^1.3.2",
     "express": "4.14.0",
     "express-session": "^1.14.2",
-    "mongodb": "2.2.0"
+    "isomorphic-fetch": "^2.2.1",
+    "mongodb": "2.2.0",
+    "react": "15.3.2",
+    "react-bootstrap": "0.30.5",
+    "react-dom": "15.3.2",
+    "react-redux": "4.4.5",
+    "redux": "3.6.0",
+    "redux-thunk": "2.1.0"
   },
   "devDependencies": {
     "babel-core": "6.17.0",
