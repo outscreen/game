@@ -2,8 +2,8 @@
 
 if (([
         process.env.sessionsecret,
-        process.env.rootuser,
-        process.env.rootpass,
+        //process.env.rootuser,
+        //process.env.rootpass,
         process.env.crypto,
     ]).indexOf(undefined) !== -1) {
     console.error('Provide all creds');
@@ -11,6 +11,7 @@ if (([
 }
 
 const express = require('express');
+const path = require('path');
 var bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -42,7 +43,7 @@ db.ready
         }));
 
         // Create root user
-        User.updateDbUser({
+        if (process.env.rootuser && process.env.rootpass) User.updateDbUser({
             username: process.env.rootuser,
             password: process.env.rootpass,
         }).then(() => {
@@ -59,10 +60,18 @@ db.ready
             });
         });
 
+        app.get('/', (req, res) => {
+            res.sendFile(path.join(__dirname + '/public/index.html'));
+        });
+
+        app.get('*', (req, res) => {
+            res.sendFile(path.join(__dirname + '/public' + req.url));
+        });
+
         // Start server
         // TODO remove hardcoded port
-        app.listen(3000, () => {
-            console.log('http://127.0.0.1:3000')
+        app.listen(1717, () => {
+            console.log('http://127.0.0.1:1717')
         })
     })
     .catch(console.log);

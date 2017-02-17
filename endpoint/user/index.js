@@ -2,6 +2,7 @@
 
 const User = require('../../user');
 
+//TODO set required params
 const login = (req, res) => {
     User.getDbUser({
         username: req.body.username,

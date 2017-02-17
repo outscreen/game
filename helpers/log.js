@@ -1,11 +1,11 @@
 'use strict';
 
-const log = (...args) => {
-    console.log(args);
+const log = () => {
+    console.log(arguments);
 };
 
-log.error = (...args) => {
-    console.error(args);
+log.error = () => {
+    console.error(arguments);
 };
 
 module.exports = log;
