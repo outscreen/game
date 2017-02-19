@@ -2,7 +2,7 @@
 
 const combineReducers = require('redux').combineReducers;
 
-const auth = require('./auth');
+const auth = require('./user');
 const route = require('./route');
 
 module.exports = combineReducers({

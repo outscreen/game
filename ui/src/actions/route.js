@@ -1,6 +1,6 @@
 'use strict';
 
-const goTo = (destination) => {
+const routeChange = (destination) => {
     return {
         type: 'routeChange',
         payload: {
@@ -9,6 +9,21 @@ const goTo = (destination) => {
     };
 };
 
+const actionFailure = (error) => {
+    return {
+        type: 'actionFailure',
+        payload: { error, },
+    };
+};
+
+const clear = () => {
+    return {
+        type: 'clear',
+    }
+};
+
 module.exports = {
-    goTo,
+    routeChange,
+    actionFailure,
+    clear,
 };

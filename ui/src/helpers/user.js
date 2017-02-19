@@ -12,33 +12,27 @@ const fetch = (url, params) => isoFetch(`http://127.0.0.1:1717${url}`, {
     body: JSON.stringify(params.body),
 })
     .then((res) => {
-        if (!res.ok) return res.text().then((data) => Promise.reject(data));
-        return res.json();
+        if (res.ok) return res.json();
+        return res.text().then((data) => Promise.reject(data));
     });
 
 const login = (params) => fetch('/user/login', {
     method: 'POST',
-    body: JSON.stringify(params),
+    body: params,
 })
     .then((userData) => {
         console.log(88, userData)
-    })
-    .catch((err) => ({
-        error: err,
-    }));
+    });
 
 const logout = () => fetch({});
 
 const create = (params) => fetch('/user/create', {
     method: 'POST',
-    body: JSON.stringify(params),
+    body: params,
 })
     .then((userData) => {
         console.log(88, userData)
-    })
-    .catch((err) => ({
-        error: err,
-    }));
+    });
 
 module.exports = {
     login,
