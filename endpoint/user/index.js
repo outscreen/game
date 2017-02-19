@@ -56,7 +56,7 @@ module.exports = [
         handler: login,
     },
     {
-        url: 'create',
+        url: '',
         method: 'post',
         handler: create,
     },

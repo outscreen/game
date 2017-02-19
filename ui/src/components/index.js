@@ -9,6 +9,7 @@ const routeActions = require('../actions/route');
 const Header = require('../components/header');
 const Login = require('../components/login');
 const Profile = require('../components/profile');
+const Reminder = require('../components/reminder');
 
 const getState = require('../helpers/getState');
 
@@ -30,6 +31,9 @@ class Index extends React.Component {
             case 'login':
             case 'register':
                 MainComponent = Login;
+                break;
+            case 'reminder':
+                MainComponent = Reminder;
                 break;
             default:
                 console.error('Unknown route, reset state');
