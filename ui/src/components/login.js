@@ -11,9 +11,6 @@ const userHelpers = require('../helpers/user');
 class Login extends React.Component {
     constructor(props) {
         super(props);
-window.t = this
-        this.isRegister = this.props.route === 'register';
-        this.isLogin = this.props.route === 'login';
 
         this.state = {
             username: this.props.username || '',
@@ -21,18 +18,18 @@ window.t = this
             disableSubmit: true,
         };
 
-        this.action = (this.isRegister && userHelpers.create) || (this.isLogin && userHelpers.login);
-        this.actionSuccess = (this.isRegister && 'registerSuccess') || (this.isLogin && 'loginSuccess');
+        this.getAction = () => (this.isRegister && userHelpers.create) || (this.isLogin && userHelpers.login);
+        this.getActionSuccess = () => (this.isRegister && 'registerSuccess') || (this.isLogin && 'loginSuccess');
     }
 
     onSubmit(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        this.action(this.state)
-            .then((data) => console.log(1, data))
+        this.getAction()(this.state)
+            .then((data) => this.props.userActions[this.getActionSuccess()](data))
             .catch((error) => {
-                console.log('error', error)
+                console.log('error', error);
                 this.props.routeActions.actionFailure(error)
             });
 
@@ -61,6 +58,9 @@ window.t = this
     }
 
     render() {
+        this.isRegister = this.props.route === 'register';
+        this.isLogin = this.props.route === 'login';
+
         return (
             <div className="form">
                 <p>Login</p>

@@ -7,7 +7,7 @@ const config = require('../config');
 
 class User {
     constructor(params) {
-        this.name = params.username;
+        this.username = params.username;
         this.hash = params.password ? hash(params.password) : params.hash;
         this.email = params.email;
         this.role = params.role;

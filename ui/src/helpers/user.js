@@ -19,20 +19,14 @@ const fetch = (url, params) => isoFetch(`http://127.0.0.1:1717${url}`, {
 const login = (params) => fetch('/user/login', {
     method: 'POST',
     body: params,
-})
-    .then((userData) => {
-        console.log(88, userData)
-    });
+});
 
 const logout = () => fetch({});
 
 const create = (params) => fetch('/user/create', {
     method: 'POST',
     body: params,
-})
-    .then((userData) => {
-        console.log(88, userData)
-    });
+});
 
 module.exports = {
     login,

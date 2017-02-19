@@ -8,9 +8,18 @@ const initialState = {
 
 module.exports = createReducer(initialState, {
 
-    loginFailure(state, payload) {
-        return Object.assign({}, state, {
-        });
+    loginSuccess(state, payload) {
+        const newState = { username: payload.username };
+        if (payload.reminders) newState.remibders = payload.reminders;
+
+        return Object.assign({}, state, newState);
+    },
+
+    registerSuccess(state, payload) {
+        const newState = { username: payload.username };
+        if (payload.reminders) newState.remibders = payload.reminders;
+
+        return Object.assign({}, state, newState);
     },
 
 });
