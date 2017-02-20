@@ -49,6 +49,6 @@
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "node-sass": "^4.5.0",
     "sass-loader": "^6.0.1",
-    "webpack": "^2.1.0-beta.22"
+    "webpack": "2.1.0-beta.22"
   }
 }

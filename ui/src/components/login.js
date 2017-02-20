@@ -36,10 +36,6 @@ class Login extends React.Component {
         return false;
     }
 
-    validate() {
-        this.setState({ disableSubmit: !(this.state.username && this.state.password) });
-    }
-
     showRegistration() {
         this.props.routeActions.routeChange('register');
     }
@@ -48,13 +44,17 @@ class Login extends React.Component {
         this.props.routeActions.routeChange('login');
     }
 
-    watchField(key) {
+    handleChange(key) {
         return {
             value: this.state[key],
             onChange: (event) => {
                 this.setState({ [key]: event.target.value }, this.validate);
             },
         };
+    }
+
+    validate() {
+        this.setState({ disableSubmit: !(this.state.username && this.state.password) });
     }
 
     render() {
@@ -68,15 +68,15 @@ class Login extends React.Component {
                     <label><span>username:</span></label>
                     <div>
                         <input
-                            {...this.watchField('username')}
+                            {...this.handleChange('username')}
                             type="text"
-                            placeholder="userActions"
+                            placeholder="User"
                         />
                     </div>
                     <label><span>Password:</span></label>
                     <div>
                         <input
-                            {...this.watchField('password')}
+                            {...this.handleChange('password')}
                             type="password"
                             placeholder="Password"
                         />

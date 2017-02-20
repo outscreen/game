@@ -27,7 +27,7 @@ class DataBase {
             this.db.collection(collection).insert(params, (err, res) => {
                 if (err) {
                     log.error(err);
-                    return reject('User exists');
+                    return reject('Already exists');
                 }
                 return resolve(res);
             });

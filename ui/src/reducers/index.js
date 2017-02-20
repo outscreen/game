@@ -2,10 +2,12 @@
 
 const combineReducers = require('redux').combineReducers;
 
-const auth = require('./user');
+const user = require('./user');
 const route = require('./route');
+const reminder = require('./reminder');
 
 module.exports = combineReducers({
-    auth,
+    user,
     route,
+    reminder,
 });

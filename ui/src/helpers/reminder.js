@@ -7,3 +7,6 @@ const add = (params) => fetch('/reminder', {
     body: params,
 });
 
+module.exports = {
+    add,
+};

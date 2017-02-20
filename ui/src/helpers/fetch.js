@@ -8,6 +8,7 @@ const fetch = (url, params) => isoFetch(`http://127.0.0.1:1717${url}`, {
     headers: {
         'Content-Type': 'application/json'
     },
+    credentials: 'include',
     body: JSON.stringify(params.body),
 })
     .then((res) => {

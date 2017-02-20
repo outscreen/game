@@ -8,6 +8,14 @@ const getUnread = (userUuid) => db.get(config.db.remindersTable, {
     userUuid,
 });
 
+const add = (params) => db.create(config.db.remindersTable, {
+    status: config.status.unread,
+    userUuid: params.userUuid,
+    dueDate: params.dueDate,
+    location: params.location,
+});
+
 module.exports = {
     getUnread,
+    add,
 };

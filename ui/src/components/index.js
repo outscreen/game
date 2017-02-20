@@ -51,7 +51,7 @@ class Index extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    username: state.auth.username,
+    username: state.user.username,
     route: state.route.current,
 });
 
