@@ -54,6 +54,11 @@ db.ready
         endpoints.forEach((pathConfig) => {
             pathConfig.handlers.forEach((handlerConfig) => {
                 app[handlerConfig.method](`/${pathConfig.path}/${handlerConfig.url}`, (req, res, next) => {
+                    if (handlerConfig.rules) {
+                        let fail;
+                        handlerConfig.rules.some((rule) => (fail = rule(req)));
+                        if (fail) return res.status(fail.status).send(fail.error);
+                    }
                     return handlerConfig.handler.call(this, req, res, next);
                 });
                 console.log(`${handlerConfig.method} /${pathConfig.path}/${handlerConfig.url}`);

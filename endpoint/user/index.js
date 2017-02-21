@@ -2,6 +2,7 @@
 
 const User = require('../../user');
 const reminder = require('../../reminder');
+const requestValidation = require('../../validate/request');
 
 //TODO set required params
 const login = (req, res) => {
@@ -74,13 +75,13 @@ module.exports = [
         url: 'logout',
         method: 'post',
         handler: create,
-        auth: ['loggedIn'],
+        rules: ['loggedIn'],
     },
     {
         url: '',
         method: 'get',
         handler: state,
-        auth: ['loggedIn'],
+        rules: [requestValidation.loggedIn()],
     },
 ];
 
