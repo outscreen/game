@@ -8,6 +8,7 @@ const add = (req, res) => {
         userUuid: req.session.userUuid,
         dueDate: req.body.dueDate,
         location: req.body.location,
+        description: req.body.description,
     }).then((reminderData) => {
         res.status(200).send({success: true, reminder: reminderData.ops[0]});
     }).catch((err) => {
