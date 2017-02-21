@@ -8,17 +8,22 @@ const loggedIn = () => (req) => {
     return { status: 401, error: 'User must be logged in' }
 };
 
-const hasFields = (fields) => (req) => {
-    let error = null;
-    fields.some((key) => {
-        error = validate({[key]: req.body[key]}, validationRules);
-        return error;
-    });
+const fieldsPresent = (fields) => (req) => {
+    const missing = fields.find((key) => !req.body[key]);
+    if (!missing) return;
+    return { status: 400, error: {[missing] : `${missing} can't be blank`}, };
+};
+
+const fieldsValid = (fields) => (req) => {
+    const constraints = {};
+    fields.forEach((key) => (constraints[key] = validationRules[key]));
+    const error = validate(req.body, constraints);
     if (!error) return;
     return { status: 400, error, };
 };
 
 module.exports = {
     loggedIn,
-    hasFields,
+    fieldsValid,
+    fieldsPresent,
 };

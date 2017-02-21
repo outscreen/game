@@ -3,6 +3,7 @@
 const validate = require('validate.js');
 
 const username = {
+    presence: true,
     format: {
         pattern: /^[a-zA-Z0-9]*$/,
         message: 'should contain only digits or latin letters',
@@ -15,6 +16,7 @@ const username = {
 };
 
 const password = {
+    presence: true,
     length: {
         minimum: 6,
         maximum: 20,

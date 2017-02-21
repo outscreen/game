@@ -48,6 +48,7 @@ const create = (req, res) => {
 
 const logout = (req, res) => {
     delete req.session.userUuid;
+    delete req.session.username;
     res.status(200).send({success: true});
 };
 
@@ -65,17 +66,19 @@ module.exports = [
         url: 'login',
         method: 'post',
         handler: login,
+        // do not validate fields to allow old users log in if validation rules change
+        rules: [requestValidation.fieldsPresent(['username', 'password'])],
     },
     {
         url: '',
         method: 'post',
         handler: create,
+        rules: [requestValidation.fieldsValid(['username', 'password'])],
     },
     {
         url: 'logout',
         method: 'post',
         handler: create,
-        rules: ['loggedIn'],
     },
     {
         url: '',
