@@ -4,9 +4,13 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const bindActionCreators = require('redux').bindActionCreators;
 
+const validate = require('validate.js');
+
 const routeActions = require('../actions/route');
 const userActions = require('../actions/user');
 const userHelpers = require('../helpers/user');
+
+const validationRules = require('../../../validate/fields');
 
 class Login extends React.Component {
     constructor(props) {
@@ -48,12 +52,16 @@ class Login extends React.Component {
         return {
             value: this.state[key],
             onChange: (event) => {
-                this.setState({ [key]: event.target.value }, this.validate);
+                this.setState({ [key]: event.target.value }, this.validate.bind(this));
             },
         };
     }
 
     validate() {
+        this.props.formErrors = validate(this.state, {
+            username: validationRules.username,
+            password: validationRules.password,
+        });
         this.setState({ disableSubmit: !(this.state.username && this.state.password) });
     }
 
@@ -72,6 +80,7 @@ class Login extends React.Component {
                             type="text"
                             placeholder="User"
                         />
+                        { this.props.formErrors && this.props.formErrors.username && (<p>{this.props.formErrors.username[0]}</p>) }
                     </div>
                     <label><span>Password:</span></label>
                     <div>
@@ -80,12 +89,13 @@ class Login extends React.Component {
                             type="password"
                             placeholder="Password"
                         />
+                        { this.props.formErrors && this.props.formErrors.password && (<p>{this.props.formErrors.password[0]}</p>) }
                     </div>
 
                     { this.props.error && (<p>{this.props.error}</p>) }
 
                     <button
-                        disabled={this.state.disableSubmit}
+                        disabled={this.state.disableSubmit || this.props.formErrors}
                         type="submit"
                         className="">
                         OK

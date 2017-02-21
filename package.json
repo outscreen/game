@@ -35,7 +35,8 @@
     "redux": "3.6.0",
     "redux-thunk": "2.1.0",
     "style-loader": "^0.13.1",
-    "url-loader": "^0.5.7"
+    "url-loader": "^0.5.7",
+    "validate.js": "^0.11.1"
   },
   "devDependencies": {
     "babel-core": "6.17.0",
