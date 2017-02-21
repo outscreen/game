@@ -13,14 +13,14 @@ module.exports = {
         filename: 'app.js',
     },
 
-    plugins: [
+    plugins: process.env.NODE_ENV === 'production' ? [
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production')
+                NODE_ENV: 'production'
             }
         }),
         new webpack.optimize.UglifyJsPlugin({}),
-    ],
+    ] : [],
 
     node: {
         __dirname: false,
