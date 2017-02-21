@@ -19,7 +19,7 @@ class Login extends React.Component {
         this.state = {
             username: this.props.username || '',
             password: this.props.password || '',
-            disableSubmit: true,
+            formErrors: undefined,
         };
 
         this.getAction = () => (this.isRegister && userHelpers.create) || (this.isLogin && userHelpers.login);
@@ -52,17 +52,18 @@ class Login extends React.Component {
         return {
             value: this.state[key],
             onChange: (event) => {
-                this.setState({ [key]: event.target.value }, this.validate.bind(this));
+                this.setState({[key]: event.target.value}, this.validate.bind(this));
             },
         };
     }
 
     validate() {
-        this.props.formErrors = validate(this.state, {
-            username: validationRules.username,
-            password: validationRules.password,
+        this.setState({
+            formErrors: validate(this.state, {
+                username: validationRules.username,
+                password: validationRules.password,
+            })
         });
-        this.setState({ disableSubmit: !(this.state.username && this.state.password) });
     }
 
     render() {
@@ -80,7 +81,8 @@ class Login extends React.Component {
                             type="text"
                             placeholder="User"
                         />
-                        { this.props.formErrors && this.props.formErrors.username && (<p>{this.props.formErrors.username[0]}</p>) }
+                        { this.state.formErrors && this.state.formErrors.username && (
+                            <p>{this.state.formErrors.username[0]}</p>) }
                     </div>
                     <label><span>Password:</span></label>
                     <div>
@@ -89,13 +91,14 @@ class Login extends React.Component {
                             type="password"
                             placeholder="Password"
                         />
-                        { this.props.formErrors && this.props.formErrors.password && (<p>{this.props.formErrors.password[0]}</p>) }
+                        { this.state.formErrors && this.state.formErrors.password && (
+                            <p>{this.state.formErrors.password[0]}</p>) }
                     </div>
 
                     { this.props.error && (<p>{this.props.error}</p>) }
 
                     <button
-                        disabled={this.state.disableSubmit || this.props.formErrors}
+                        disabled={this.state.formErrors}
                         type="submit"
                         className="">
                         OK
