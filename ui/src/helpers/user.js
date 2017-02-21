@@ -14,8 +14,13 @@ const create = (params) => fetch('/user', {
     body: params,
 });
 
+const getData = () => fetch('/user', {
+    method: 'GET',
+});
+
 module.exports = {
     login,
     logout,
     create,
+    getData,
 };

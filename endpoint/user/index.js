@@ -15,6 +15,7 @@ const login = (req, res) => {
         return Promise.reject({ status: 401, text: 'Invalid username or password' });
     }).then((userInfo) => {
         req.session.userUuid = userInfo.uuid;
+        req.session.username = userInfo.username;
         response.username = userInfo.username;
         return reminder.getUnread(userInfo.uuid)
             .catch(() => Promise.resolve(null));
@@ -49,6 +50,15 @@ const logout = (req, res) => {
     res.status(200).send({success: true});
 };
 
+const state = (req, res) => {
+    const response = { username: req.session.username, success: true };
+
+    reminder.getUnread(req.session.userUuid)
+        .catch(() => Promise.resolve(null))
+        .then((reminders) => (response.reminders = reminders))
+        .then(() => res.status(200).send(response));
+};
+
 module.exports = [
     {
         url: 'login',
@@ -65,6 +75,12 @@ module.exports = [
         method: 'post',
         handler: create,
         auth: ['loggedIn'],
-    }
+    },
+    {
+        url: '',
+        method: 'get',
+        handler: state,
+        auth: ['loggedIn'],
+    },
 ];
 

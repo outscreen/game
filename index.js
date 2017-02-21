@@ -46,9 +46,9 @@ db.ready
         if (process.env.rootuser && process.env.rootpass) User.updateDbUser({
             username: process.env.rootuser,
             password: process.env.rootpass,
-        }).then(() => {
+        }, true).then(() => {
             console.log('ROOT USER created');
-        });
+        }).catch(console.log);
 
         // Register paths
         endpoints.forEach((pathConfig) => {

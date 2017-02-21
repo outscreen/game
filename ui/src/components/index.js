@@ -11,14 +11,18 @@ const Login = require('../components/login');
 const Profile = require('../components/profile');
 const Reminder = require('../components/reminder');
 
-const getState = require('../helpers/getState');
+const userHelpers = require('../helpers/user');
 
 class Index extends React.Component {
     componentWillMount() {
         this.props.routeActions.clear();
-        if (!this.props.username) {
-            this.props.routeActions.routeChange('register');
-        }
+        userHelpers.getData()
+            .then((data) => this.props.routeActions.stateLoaded(data))
+            .catch(() => {
+                if (!this.props.username) {
+                    return this.props.routeActions.routeChange('register');
+                }
+            });
     }
 
     render() {
@@ -36,7 +40,7 @@ class Index extends React.Component {
                 MainComponent = Reminder;
                 break;
             default:
-                console.error('Unknown route, reset state');
+                console.error('Unknown route, reset state', this.props.route);
                 // TODO reset state
                 return;
         }

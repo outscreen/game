@@ -1,12 +1,12 @@
 'use strict';
 
-const a = (d) => {
+const reminderSuccess = (reminder) => {
     return {
-        type: 'a',
-        payload: d,
+        type: 'reminderSuccess',
+        payload: { reminder },
     };
 };
 
 module.exports = {
-    a
+    reminderSuccess,
 };
