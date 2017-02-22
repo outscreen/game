@@ -1,6 +1,7 @@
 'use strict';
 
-const MongoClient = require('mongodb').MongoClient;
+const MongoDB = require('mongodb');
+const MongoClient = MongoDB.MongoClient;
 const config = require('../config');
 const log = require('../helpers/log');
 const random = require('../helpers/random');
@@ -48,6 +49,7 @@ class DataBase {
     }
 
     get(collection, params) {
+        if (params._id) params._id = MongoDB.ObjectID(params._id);
         return new Promise((resolve, reject) => {
             this.db.collection(collection)
                 .find(params)
@@ -62,10 +64,12 @@ class DataBase {
     }
 
     update(collection, params, update, upsert) {
+        if (params._id) params._id = MongoDB.ObjectID(params._id);
         return this.db.collection(collection).findOneAndUpdate(params, update, { upsert });
     }
 
     getOne(collection, params) {
+        if (params._id) params._id = MongoDB.ObjectID(params._id);
         return new Promise((resolve, reject) => {
             this.db.collection(collection)
                 .findOne(params, (err, doc) => {

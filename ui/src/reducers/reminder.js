@@ -5,6 +5,7 @@ const config = require('../../config');
 
 const initialState = {
     reminders: [],
+    currentLocation: config.defaultLocation,
 };
 
 module.exports = createReducer(initialState, {
@@ -24,4 +25,8 @@ module.exports = createReducer(initialState, {
         return Object.assign({}, state, { reminders: payload.reminders });
     },
 
+    locationChanged(state, payload) {
+        if (payload.location === state.currentLocation) return state;
+        return Object.assign({}, state, {currentLocation: payload.location});
+    }
 });

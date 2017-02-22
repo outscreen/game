@@ -7,6 +7,12 @@ const add = (params) => fetch('/reminder', {
     body: params,
 });
 
+const update = (params) => fetch('/reminder', {
+    method: 'PUT',
+    body: params,
+});
+
 module.exports = {
     add,
+    update,
 };

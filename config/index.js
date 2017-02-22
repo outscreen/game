@@ -12,10 +12,6 @@ const config = Object.assign({}, isomorphic, {
         remindersTable: 'reminders',
     },
     roles,
-    status: {
-        read: 'read',
-        unread: 'unread',
-    },
 });
 
 module.exports = config;

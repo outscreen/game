@@ -23,6 +23,14 @@ module.exports = createReducer(initialState, {
         });
     },
 
+    registerSuccess(state) {
+        return Object.assign({}, state, {
+            previous: state.current,
+            current: 'base',
+            error: null,
+        });
+    },
+
     loginSuccess(state) {
         return Object.assign({}, state, {
             previous: state.current,
@@ -31,7 +39,7 @@ module.exports = createReducer(initialState, {
         });
     },
 
-    registerSuccess() {
+    registerSuccess(state) {
         return Object.assign({}, state, {
             previous: state.current,
             current: 'base',
