@@ -15,19 +15,22 @@ class Reminder extends React.Component {
     constructor(props) {
         super(props);
 
+        const reminder = this.props.reminders[this.props.reminderId];
+
         this.locationList = config.locationList;
 
         this.state = {
-            url: this.props.url || '',
-            _id: this.props._id || '',
-            description: this.props.description || '',
-            dueDate: this.props.dueDate || new Date(Date.now() + 15 * 60 * 1000),
-            location: this.props.location || config.defaultLocation,
+            url: reminder && reminder.url || '',
+            _id: reminder && reminder._id || '',
+            description: reminder && reminder.description || '',
+            dueDate:  new Date(reminder && reminder.dueDate || Date.now() + 15 * 60 * 1000),
+            location: reminder && reminder.location || config.defaultLocation,
         };
     }
 
     onSubmit() {
-        reminderHelpers.add(this.state);
+        (this.state._id ? reminderHelpers.update(this.state) : reminderHelpers.add(this.state))
+            .then((reminder) => this.props.reminderActions.reminderSuccess(reminder));
     }
 
     handleChange(key) {
@@ -69,6 +72,7 @@ class Reminder extends React.Component {
 
 const mapStateToProps = (state) => ({
     error: state.route.error,
+    reminders: state.reminder.reminders,
 });
 
 const mapDispatchToProps = (dispatch) => ({

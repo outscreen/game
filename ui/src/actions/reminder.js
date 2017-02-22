@@ -14,7 +14,15 @@ const locationChanged = (location) => {
     };
 };
 
+const reminderSelected = (reminder) => {
+    return {
+        type: 'reminderSelected',
+        payload: { reminder },
+    };
+};
+
 module.exports = {
     reminderSuccess,
     locationChanged,
+    reminderSelected,
 };

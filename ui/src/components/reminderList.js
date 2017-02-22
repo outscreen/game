@@ -16,8 +16,13 @@ class Profile extends React.Component {
             .then(() => this.props.reminderActions.reminderRead(_id));
     }
 
+    edit(_id) {
+        this.props.reminderActions.reminderSelected(_id);
+        this.props.routeActions.routeChange('reminder');
+    }
+
     render() {
-        const listItems = this.props.reminders
+        const listItems = Object.values(this.props.reminders)
             .filter((item) => item.location === this.props.location)
             .sort((a, b) => a.dueDate > b.dueDate)
             .map((item) => (
@@ -26,7 +31,7 @@ class Profile extends React.Component {
                     <a href="#">Open</a>
                     <a href="#">Open & Mark Read</a>
                     <a href="#" onClick={this.markRead.bind(this, item._id)}>Mark Read</a>
-                    <a href="#">Edit</a>
+                    <a href="#" onClick={this.edit.bind(this, item._id)}>>Edit</a>
                 </li>
             ));
 

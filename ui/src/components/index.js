@@ -30,14 +30,14 @@ class Index extends React.Component {
 
         switch (this.props.route) {
             case 'base':
-                MainComponent = Profile;
+                MainComponent = (<Profile/>);
                 break;
             case 'login':
             case 'register':
-                MainComponent = Login;
+                MainComponent = (<Login/>);
                 break;
             case 'reminder':
-                MainComponent = Reminder;
+                MainComponent = (<Reminder reminderId={this.props.selectedReminder}/>);
                 break;
             default:
                 console.error('Unknown route, reset state', this.props.route);
@@ -48,7 +48,7 @@ class Index extends React.Component {
         return (
             <div className="hello">
                 <Header username={this.props.username}/>
-                <MainComponent/>
+                {MainComponent}
             </div>
         );
     }
@@ -57,6 +57,7 @@ class Index extends React.Component {
 const mapStateToProps = (state) => ({
     username: state.user.username,
     route: state.route.current,
+    selectedReminder: state.reminder.selectedReminder,
 });
 
 const mapDispatchToProps = (dispatch) => ({

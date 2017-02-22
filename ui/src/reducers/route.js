@@ -23,7 +23,7 @@ module.exports = createReducer(initialState, {
         });
     },
 
-    registerSuccess(state) {
+    reminderSuccess(state) {
         return Object.assign({}, state, {
             previous: state.current,
             current: 'base',

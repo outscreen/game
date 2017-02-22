@@ -14,6 +14,7 @@ const add = (params) => db.create(config.db.remindersTable, {
     dueDate: params.dueDate,
     location: params.location,
     description: params.description,
+    url: params.url,
 });
 
 const get = (params) => db.get(config.db.remindersTable, params);
@@ -27,6 +28,7 @@ const update = (params) => {
     params.dueDate && (update.dueDate = params.dueDate);
     params.location && (update.location = params.location);
     params.description && (update.description = params.description);
+    params.url && (update.url = params.url);
 
     return db.update(config.db.remindersTable, { _id: params._id }, {$set: update})
         .then((res) => Object.assign(res.value, update));
