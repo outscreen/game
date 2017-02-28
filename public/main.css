@@ -1,0 +1,46 @@
+.location li {
+    display: inline-block;
+}
+
+.head {
+    height: 50px;
+    position: relative;
+    width: 100%;
+    vertical-align: middle;
+}
+
+.head i {
+    font-size: 25px;
+}
+
+.table {
+    display: table;
+}
+
+.cell {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 10px;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.content {
+    padding: 10px;
+}
+
+.reminder-list{
+    display: table;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.wide {
+    width: 100%;
+}

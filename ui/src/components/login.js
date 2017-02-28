@@ -3,6 +3,9 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const bindActionCreators = require('redux').bindActionCreators;
+const InputGroup = require('react-bootstrap').InputGroup;
+const FormControl = require('react-bootstrap').FormControl;
+const Button = require('react-bootstrap').Button;
 
 const validate = require('validate.js');
 
@@ -10,7 +13,7 @@ const routeActions = require('../actions/route');
 const userActions = require('../actions/user');
 const userHelpers = require('../helpers/user');
 
-const validationRules = require('../.././fields');
+const validationRules = require('../../../core/validate/fields');
 
 class Login extends React.Component {
     constructor(props) {
@@ -71,38 +74,30 @@ class Login extends React.Component {
         this.isLogin = this.props.route === 'login';
 
         return (
-            <div className="form">
-                <p>Login</p>
+            <div className="form content">
                 <form onSubmit={(e) => this.onSubmit(e)}>
-                    <label><span>username:</span></label>
-                    <div>
-                        <input
-                            {...this.handleChange('username')}
-                            type="text"
-                            placeholder="User"
-                        />
+                    <InputGroup>
+                        <InputGroup.Addon>Username</InputGroup.Addon>
+                        <FormControl type="text" placeholder="username" {...this.handleChange('username')} />
                         { this.state.formErrors && this.state.formErrors.username && (
                             <p>{this.state.formErrors.username[0]}</p>) }
-                    </div>
-                    <label><span>Password:</span></label>
-                    <div>
-                        <input
-                            {...this.handleChange('password')}
-                            type="password"
-                            placeholder="Password"
-                        />
+                    </InputGroup>
+
+                    <InputGroup>
+                        <InputGroup.Addon>Password</InputGroup.Addon>
+                        <FormControl type="password" placeholder="password" {...this.handleChange('password')} />
                         { this.state.formErrors && this.state.formErrors.password && (
                             <p>{this.state.formErrors.password[0]}</p>) }
-                    </div>
+                    </InputGroup>
 
                     { this.props.error && (<p>{this.props.error}</p>) }
 
-                    <button
+                    <Button
                         disabled={this.state.formErrors}
                         type="submit"
                         className="">
                         OK
-                    </button>
+                    </Button>
                 </form>
                 { this.isLogin && (<a href="#" onClick={this.showRegistration.bind(this)}>Create new account</a>)}
                 { this.isRegister && (<a href="#" onClick={this.showLogin.bind(this)}>I have an account</a>)}

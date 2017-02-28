@@ -5,7 +5,10 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const bindActionCreators = require('redux').bindActionCreators;
 const DateTimePicker = require('react-widgets').DateTimePicker;
-const SelectList = require('react-widgets').SelectList;
+const InputGroup = require('react-bootstrap').InputGroup;
+const FormControl = require('react-bootstrap').FormControl;
+const Button = require('react-bootstrap').Button;
+const Location = require('./location');
 
 const config = require('../../config');
 const reminderActions = require('../actions/reminder');
@@ -48,23 +51,34 @@ class Reminder extends React.Component {
 
     render() {
         return (
-            <div>
-                <input {...this.handleChange('url')}
-                       type="text"/>
-                <input {...this.handleChange('description')}
-                       type="text"/>
-                <DateTimePicker
-                    defaultValue={new Date()}
-                    min={new Date()}
-                    {...this.handleChange('dueDate')}
-                />
-                <SelectList value={this.state.location}
-                            onChange={(l) => this.setState({ location: l.id })}
-                            data={this.locationList}
-                            valueField="id"
-                            textField="name"
-                />
-                <button onClick={this.onSubmit.bind(this)}>OK</button>
+            <div className="content">
+                <InputGroup>
+                    <InputGroup.Addon>URL</InputGroup.Addon>
+                    <FormControl type="text" placeholder="http://..." {...this.handleChange('url')} />
+                </InputGroup>
+
+                <InputGroup>
+                    <InputGroup.Addon>Description</InputGroup.Addon>
+                    <FormControl type="text" placeholder="" {...this.handleChange('url')} />
+                </InputGroup>
+
+                <InputGroup>
+                    <InputGroup.Addon>Location</InputGroup.Addon>
+                    <Location action={(id) => this.setState({ location: id })} location={this.state.location}/>
+                </InputGroup>
+
+                <InputGroup>
+                    <InputGroup.Addon>Due</InputGroup.Addon>
+                    <DateTimePicker
+                        defaultValue={new Date()}
+                        min={new Date()}
+                        {...this.handleChange('dueDate')}
+                    />
+                </InputGroup>
+
+                <Button onClick={this.onSubmit.bind(this)}>
+                    { this.state._id ? 'Edit' : 'Add' } reminder
+                </Button>
             </div>
         );
     }

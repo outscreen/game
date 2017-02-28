@@ -3,6 +3,8 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const bindActionCreators = require('redux').bindActionCreators;
+const ListGroup = require('react-bootstrap').ListGroup;
+const ListGroupItem = require('react-bootstrap').ListGroupItem;
 
 const config = require('../../config');
 
@@ -21,26 +23,34 @@ class Profile extends React.Component {
         this.props.routeActions.routeChange('reminder');
     }
 
+    open(_id) {
+        this.props.reminderActions.reminderSelected(_id);
+        this.props.routeActions.routeChange('reminder');
+    }
+
     render() {
         const listItems = Object.values(this.props.reminders)
             .filter((item) => item.location === this.props.location)
             .sort((a, b) => a.dueDate > b.dueDate)
             .map((item) => (
-                <li key={item._id}>
-                    <a href="#">{item.description}</a>
-                    <a href="#">Open</a>
-                    <a href="#">Open & Mark Read</a>
-                    <a href="#" onClick={this.markRead.bind(this, item._id)}>Mark Read</a>
-                    <a href="#" onClick={this.edit.bind(this, item._id)}>>Edit</a>
-                </li>
+                <ListGroupItem key={item._id}>
+                    <span className="cell wide">{item.description}</span>
+                    <a href="#" className="cell" onClick={this.open.bind(this, item._id)}>
+                        <i className="glyphicon glyphicon-share"/></a>
+                    <a href="#" className="cell"
+                       onClick={this.open.bind(this, item._id) && this.markRead.bind(this, item._id)}>
+                        <i className="glyphicon glyphicon-check"/></a>
+                    <a href="#" className="cell" onClick={this.markRead.bind(this, item._id)}>
+                        <i className="glyphicon glyphicon-ok"/></a>
+                    <a href="#" className="cell" onClick={this.edit.bind(this, item._id)}>
+                        <i className="glyphicon glyphicon-pencil"/></a>
+                </ListGroupItem>
             ));
 
         return (
-            <div>
-                <ul>
-                    {listItems}
-                </ul>
-            </div>
+            <ListGroup className="reminder-list">
+                {listItems}
+            </ListGroup>
         );
     }
 }

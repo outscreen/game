@@ -3,24 +3,26 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const bindActionCreators = require('redux').bindActionCreators;
-const SelectList = require('react-widgets').SelectList;
-
-const config = require('../../config');
 
 const routeActions = require('../actions/route');
 const reminderActions = require('../actions/reminder');
+const Location = require('./location');
 
 class Header extends React.Component {
     constructor(props) {
         super(props);
-        this.locationList = config.locationList;
+    }
+
+    addReminder() {
+        this.props.routeActions.routeChange('reminder');
     }
 
     goHome() {
         this.props.routeActions.routeChange('base');
     }
 
-    logout() {}
+    logout() {
+    }
 
     changeLocation(location) {
         this.props.reminderActions.locationChanged(location);
@@ -28,16 +30,18 @@ class Header extends React.Component {
 
     render() {
         return (
-            <div className="head">
-                <a href="#" onClick={this.goHome.bind(this)}>Home</a>
-                <SelectList value={this.props.location}
-                            onChange={(l) => this.changeLocation(l.id)}
-                            data={this.locationList}
-                            valueField="id"
-                            textField="name"
-                />
-                <a href="#" onClick={this.logout.bind(this)}>Logout</a>
-                <p>HEADER</p>
+            <div className="head table">
+                <div className="cell"><a href="#" onClick={this.goHome.bind(this)}>
+                    <i className="glyphicon glyphicon glyphicon-th-list"/></a></div>
+                <div className="cell"><a href="#" onClick={this.addReminder.bind(this)}>
+                    <i className="glyphicon glyphicon-plus-sign"/></a></div>
+
+                <div className="cell align-center">
+                    <Location action={this.changeLocation.bind(this)} location={this.props.location}></Location>
+                </div>
+
+                <div className="cell align-right"><a href="#" onClick={this.logout.bind(this)}>
+                    <i className="glyphicon glyphicon-log-out"/></a></div>
             </div>
         );
     }
