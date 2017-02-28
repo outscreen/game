@@ -2,9 +2,8 @@
 
 if (([
         process.env.sessionsecret,
-        //process.env.rootuser,
-        //process.env.rootpass,
         process.env.crypto,
+        process.env.db,
     ]).indexOf(undefined) !== -1) {
     console.error('Provide all creds');
     process.exit(1);
@@ -16,8 +15,7 @@ var bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const db = require('./db');
-const User = require('./user');
+const db = require('./core/db');
 const endpoints = require('./endpoint');
 const config = require('./config');
 
@@ -41,14 +39,6 @@ db.ready
                 touchAfter: 60 * 60, // 1 hour (seconds)
             })
         }));
-
-        // Create root user
-        if (process.env.rootuser && process.env.rootpass) User.updateDbUser({
-            username: process.env.rootuser,
-            password: process.env.rootpass,
-        }, true).then(() => {
-            console.log('ROOT USER created');
-        }).catch(console.log);
 
         // Register paths
         endpoints.forEach((pathConfig) => {

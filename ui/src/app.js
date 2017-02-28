@@ -23,6 +23,10 @@ store.subscribe(() => {
     localStorage.setItem(storeName, JSON.stringify(store.getState()));
 });
 
+if (chrome.notifications) {
+    chrome.notifications.create(Date.now(), {}, () => console.log(arguments))
+}
+
 render((
     <Provider store={store}>
         <Index/>

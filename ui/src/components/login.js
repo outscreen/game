@@ -10,7 +10,7 @@ const routeActions = require('../actions/route');
 const userActions = require('../actions/user');
 const userHelpers = require('../helpers/user');
 
-const validationRules = require('../../../validate/fields');
+const validationRules = require('../.././fields');
 
 class Login extends React.Component {
     constructor(props) {

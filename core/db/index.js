@@ -2,11 +2,10 @@
 
 const MongoDB = require('mongodb');
 const MongoClient = MongoDB.MongoClient;
-const config = require('../config');
+const config = require('../../config');
 const log = require('../helpers/log');
 const random = require('../helpers/random');
 
-const uuidLength = 8;
 
 class DataBase {
     constructor() {
@@ -37,7 +36,7 @@ class DataBase {
 
     generateUuid(collection) {
         return new Promise((resolve, reject) => {
-            const uuid = random.alphaNumeric(uuidLength);
+            const uuid = random.alphaNumeric(config.db.uuidLength);
             return this.getOne(collection, {uuid})
                 .then((found) => {
                     //  If no such uuid yet, resolve. Otherwise retry

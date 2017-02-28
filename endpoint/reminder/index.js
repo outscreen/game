@@ -1,6 +1,6 @@
 'use strict';
 
-const reminder = require('../../reminder');
+const reminder = require('../../models/reminder');
 
 //TODO set required params
 const add = (req, res) => {

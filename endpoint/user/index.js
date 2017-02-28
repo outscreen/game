@@ -1,8 +1,8 @@
 'use strict';
 
-const User = require('../../user');
-const reminder = require('../../reminder');
-const requestValidation = require('../../validate/request');
+const User = require('../../models/user');
+const reminder = require('../../models/reminder');
+const requestValidation = require('../../core/validate/request');
 
 //TODO set required params
 const login = (req, res) => {
