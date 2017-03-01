@@ -17,8 +17,9 @@ class Index extends React.Component {
     componentWillMount() {
         this.props.routeActions.clear();
         userHelpers.getData()
-            .then((data) => this.props.routeActions.stateLoaded(data))
+            .then((data) => this.props.routeActions.stateLoadSuccess(data))
             .catch(() => {
+                this.props.routeActions.stateLoadFailure();
                 if (!this.props.username) {
                     return this.props.routeActions.routeChange('register');
                 }

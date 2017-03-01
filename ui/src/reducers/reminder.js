@@ -12,7 +12,7 @@ const initialState = {
 
 module.exports = createReducer(initialState, {
 
-    stateLoaded(state, payload) {
+    stateLoadSuccess(state, payload) {
         if (!payload.reminders) return state;
         return Object.assign({}, state, { reminders: arrayToObj(payload.reminders, '_id') });
     },

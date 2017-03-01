@@ -4,19 +4,35 @@ const createReducer = require('../helpers/createReducer');
 
 const initialState = {
     username: undefined,
+    loggedIn: false,
 };
 
 module.exports = createReducer(initialState, {
 
-    stateLoaded(state, payload) {
-        return Object.assign({}, state, { username: payload.username });
+    stateLoadSuccess(state, payload) {
+        return Object.assign({}, state, {
+            username: payload.username,
+            loggedIn: true,
+        });
+    },
+
+    stateLoadFailure(state) {
+        return Object.assign({}, state, {
+            loggedIn: false,
+        });
     },
 
     loginSuccess(state, payload) {
-        return Object.assign({}, state, { username: payload.username });
+        return Object.assign({}, state, {
+            username: payload.username,
+            loggedIn: true,
+        });
     },
 
     registerSuccess(state, payload) {
-        return Object.assign({}, state, { username: payload.username });
+        return Object.assign({}, state, {
+            username: payload.username,
+            loggedIn: true,
+        });
     },
 });

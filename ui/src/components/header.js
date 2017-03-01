@@ -24,11 +24,22 @@ class Header extends React.Component {
     logout() {
     }
 
+    login() {
+    }
+
     changeLocation(location) {
         this.props.reminderActions.locationChanged(location);
     }
 
     render() {
+        const loginBtn = this.props.loggedIn ? (
+            <div className="cell align-right"><a href="#" onClick={this.logout.bind(this)}>
+                {this.props.username} <i className="glyphicon glyphicon-log-out"/></a></div>
+        ) : (
+            <div className="cell align-right"><a href="#" onClick={this.login.bind(this)}>
+                <i className="glyphicon glyphicon-log-in"/></a></div>
+        );
+
         return (
             <div className="head table">
                 <div className="cell"><a href="#" onClick={this.goHome.bind(this)}>
@@ -40,8 +51,7 @@ class Header extends React.Component {
                     <Location action={this.changeLocation.bind(this)} location={this.props.location}></Location>
                 </div>
 
-                <div className="cell align-right"><a href="#" onClick={this.logout.bind(this)}>
-                    <i className="glyphicon glyphicon-log-out"/></a></div>
+                {loginBtn}
             </div>
         );
     }
@@ -49,6 +59,8 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => ({
     location: state.reminder.currentLocation,
+    username: state.user.username,
+    loggedIn: state.user.loggedIn,
 });
 
 const mapDispatchToProps = (dispatch) => ({
