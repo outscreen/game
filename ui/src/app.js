@@ -3,6 +3,7 @@
 const React = require('react');
 const render = require('react-dom').render;
 const Provider = require('react-redux').Provider;
+const config = require('../config');
 
 import 'react-widgets/lib/scss/react-widgets.scss';
 
@@ -17,7 +18,6 @@ const storeName = 'store';
 
 const initialState = JSON.parse(localStorage.getItem(storeName)) || {};
 const store = createStore(initialState);
-window.store = store;
 
 store.subscribe(() => {
     localStorage.setItem(storeName, JSON.stringify(store.getState()));
@@ -29,4 +29,4 @@ render((
     </Provider>
 ), document.getElementById('app'));
 
-window.store = store;
+if (config.isDebug) window.store = store;
