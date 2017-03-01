@@ -7,7 +7,7 @@ const login = (params) => fetch('/user/login', {
     body: params,
 });
 
-const logout = () => fetch({});
+const logout = () => fetch('/user/logout', { method: 'GET' });
 
 const create = (params) => fetch('/user', {
     method: 'POST',

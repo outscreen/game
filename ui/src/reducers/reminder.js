@@ -17,6 +17,10 @@ module.exports = createReducer(initialState, {
         return Object.assign({}, state, { reminders: arrayToObj(payload.reminders, '_id') });
     },
 
+    logoutSuccess() {
+        return Object.assign({}, initialState);
+    },
+
     loginSuccess(state, payload) {
         if (!payload.reminders) return state;
         return Object.assign({}, state, { reminders: arrayToObj(payload.reminders, '_id') });

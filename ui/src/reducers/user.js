@@ -29,6 +29,10 @@ module.exports = createReducer(initialState, {
         });
     },
 
+    logoutSuccess() {
+        return Object.assign({}, initialState);
+    },
+
     registerSuccess(state, payload) {
         return Object.assign({}, state, {
             username: payload.username,

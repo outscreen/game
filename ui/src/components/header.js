@@ -5,7 +5,10 @@ const connect = require('react-redux').connect;
 const bindActionCreators = require('redux').bindActionCreators;
 
 const routeActions = require('../actions/route');
+const userActions = require('../actions/user');
 const reminderActions = require('../actions/reminder');
+const userHelpers = require('../helpers/user');
+
 const Location = require('./location');
 
 class Header extends React.Component {
@@ -22,9 +25,16 @@ class Header extends React.Component {
     }
 
     logout() {
+        userHelpers.logout()
+            .then(() => this.props.userActions.logoutSuccess())
+            .catch((error) => {
+                console.log('error', error);
+                this.props.routeActions.actionFailure(error);
+            });
     }
 
     login() {
+        return this.props.routeActions.routeChange('login');
     }
 
     changeLocation(location) {
@@ -65,6 +75,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     routeActions: bindActionCreators(routeActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch),
     reminderActions: bindActionCreators(reminderActions, dispatch),
 });
 

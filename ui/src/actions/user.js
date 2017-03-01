@@ -7,6 +7,12 @@ const loginSuccess = (userInfo) => {
     };
 };
 
+const logoutSuccess = () => {
+    return {
+        type: 'logoutSuccess',
+    };
+};
+
 const registerSuccess = (userInfo) => {
     return {
         type: 'registerSuccess',
@@ -17,4 +23,5 @@ const registerSuccess = (userInfo) => {
 module.exports = {
     loginSuccess,
     registerSuccess,
+    logoutSuccess,
 };
