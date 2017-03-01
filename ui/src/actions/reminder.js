@@ -21,8 +21,16 @@ const reminderSelected = (reminder) => {
     };
 };
 
+const reminderRead = (reminder) => {
+    return {
+        type: 'reminderRead',
+        payload: { reminder },
+    };
+};
+
 module.exports = {
     reminderSuccess,
     locationChanged,
     reminderSelected,
+    reminderRead,
 };

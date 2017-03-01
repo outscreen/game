@@ -41,9 +41,19 @@ module.exports = createReducer(initialState, {
     },
 
     reminderSuccess(state, payload) {
-        const newState = Object.assign({}, state, { selectedReminder: null });
-        newState.reminders[payload.reminder._id] = payload.reminder;
-        return Object.assign(newState);
+        return Object.assign({}, state, {
+            selectedReminder: null,
+            reminders: Object.assign(state.reminders, {[payload.reminder._id]: payload.reminder})
+        });
+    },
+
+    reminderRead(state, payload) {
+        const reminders = Object.assign({}, state.reminders);
+        delete reminders[payload.reminder];
+        return Object.assign({}, state, {
+            selectedReminder: null,
+            reminders,
+        });
     },
 
     routeChange(state, payload) {

@@ -11,7 +11,7 @@ const add = (req, res) => {
         location: req.body.location,
         description: req.body.description,
     }).then((reminderData) => {
-        res.status(200).send({success: true, reminder: reminderData.ops[0]});
+        res.status(200).send(reminderData.ops[0]);
     }).catch((err) => {
         console.error(err);
         res.status(500).send(err);
