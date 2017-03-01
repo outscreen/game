@@ -14,6 +14,11 @@ const config = require('../../config');
 const reminderActions = require('../actions/reminder');
 const reminderHelpers = require('../helpers/reminder');
 
+const validationRules = require('../../../core/validate/fields');
+const validate = require('validate.js');
+
+
+// TODO add base class for forms with validation logic
 class Reminder extends React.Component {
     constructor(props) {
         super(props);
@@ -40,27 +45,49 @@ class Reminder extends React.Component {
         return {
             value: this.state[key],
             onChange: (event) => {
-                this.setState({ [key]: event.target.value });
+                this.setState({
+                    [key]: event.target.value,
+                    [`${key}Touched`]: true,
+                }, this.validate.bind(this));
             },
         };
     }
 
     validate() {
-        //this.setState({ disableSubmit: !(this.state.username && this.state.password) });
+        this.setState({
+            formErrors: validate(this.state, {
+                url: validationRules.url,
+                description: validationRules.description,
+            })
+        });
+    }
+
+    getError(key) {
+        const error = this.state[`${key}Touched`] && this.state.formErrors && this.state.formErrors[key] && (
+                <p className="input-error">* {this.state.formErrors[key][0]}</p>);
+        return error || (<p className="input-error invisible">Empty</p>);
+    }
+
+    getValidityClass(key) {
+        if (!this.state[`${key}Touched`]) return 'pristine';
+        if (this.state.formErrors && this.state.formErrors[key] && this.state.formErrors[key][0]) return 'invalid';
+        return 'valid';
     }
 
     render() {
         return (
             <div className="content">
                 <InputGroup>
-                    <InputGroup.Addon>URL</InputGroup.Addon>
+                    <InputGroup.Addon className={this.getValidityClass('url')}>URL</InputGroup.Addon>
                     <FormControl type="text" placeholder="http://..." {...this.handleChange('url')} />
                 </InputGroup>
+                { this.getError('url') }
 
                 <InputGroup>
-                    <InputGroup.Addon>Description</InputGroup.Addon>
-                    <FormControl type="text" placeholder="" {...this.handleChange('url')} />
+                    <InputGroup.Addon className={this.getValidityClass('description')}>Description</InputGroup.Addon>
+                    <FormControl type="text" placeholder="" {...this.handleChange('description')} />
                 </InputGroup>
+                { this.getError('description') }
 
                 <InputGroup>
                     <InputGroup.Addon>Location</InputGroup.Addon>

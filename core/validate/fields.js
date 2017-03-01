@@ -49,4 +49,7 @@ const dueDate = {
 module.exports = {
     username,
     password,
+    url,
+    description,
+    dueDate,
 };

@@ -45,4 +45,12 @@ module.exports = createReducer(initialState, {
         newState.reminders[payload.reminder._id] = payload.reminder;
         return Object.assign(newState);
     },
+
+    routeChange(state, payload) {
+        if (payload.route === 'reminder') return state;
+
+        return Object.assign({}, state, {
+            selectedReminder: null,
+        });
+    },
 });
