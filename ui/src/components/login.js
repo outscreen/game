@@ -22,6 +22,8 @@ class Login extends React.Component {
         this.state = {
             username: this.props.username || '',
             password: this.props.password || '',
+            usernameTouched: false,
+            passwordTouched: false,
             formErrors: undefined,
         };
 
@@ -33,7 +35,10 @@ class Login extends React.Component {
         e.preventDefault();
         e.stopPropagation();
 
-        this.getAction()(this.state)
+        this.getAction()({
+            username: this.state.username,
+            password: this.state.password,
+        })
             .then((data) => this.props.userActions[this.getActionSuccess()](data))
             .catch((error) => {
                 console.log('error', error);
@@ -55,7 +60,10 @@ class Login extends React.Component {
         return {
             value: this.state[key],
             onChange: (event) => {
-                this.setState({[key]: event.target.value}, this.validate.bind(this));
+                this.setState({
+                    [key]: event.target.value,
+                    [`${key}Touched`]: true,
+                }, this.validate.bind(this));
             },
         };
     }
@@ -69,6 +77,18 @@ class Login extends React.Component {
         });
     }
 
+    getError(key) {
+        const error = this.state[`${key}Touched`] && this.state.formErrors && this.state.formErrors[key] && (
+            <p className="input-error">* {this.state.formErrors[key][0]}</p>);
+        return error || (<p className="input-error invisible">Empty</p>);
+    }
+
+    getValidityClass(key) {
+        if (!this.state[`${key}Touched`]) return 'pristine';
+        if (this.state.formErrors && this.state.formErrors[key] && this.state.formErrors[key][0]) return 'invalid';
+        return 'valid';
+    }
+
     render() {
         this.isRegister = this.props.route === 'register';
         this.isLogin = this.props.route === 'login';
@@ -77,25 +97,23 @@ class Login extends React.Component {
             <div className="form content">
                 <form onSubmit={(e) => this.onSubmit(e)}>
                     <InputGroup>
-                        <InputGroup.Addon>Username</InputGroup.Addon>
+                        <InputGroup.Addon className={this.getValidityClass('username')}>Username</InputGroup.Addon>
                         <FormControl type="text" placeholder="username" {...this.handleChange('username')} />
-                        { this.state.formErrors && this.state.formErrors.username && (
-                            <p>{this.state.formErrors.username[0]}</p>) }
                     </InputGroup>
+                    { this.getError('username') }
 
                     <InputGroup>
-                        <InputGroup.Addon>Password</InputGroup.Addon>
+                        <InputGroup.Addon className={this.getValidityClass('password')}>Password</InputGroup.Addon>
                         <FormControl type="password" placeholder="password" {...this.handleChange('password')} />
-                        { this.state.formErrors && this.state.formErrors.password && (
-                            <p>{this.state.formErrors.password[0]}</p>) }
                     </InputGroup>
+                    { this.getError('password') }
 
                     { this.props.error && (<p>{this.props.error}</p>) }
 
                     <Button
-                        disabled={this.state.formErrors}
+                        disabled={!!this.state.formErrors}
                         type="submit"
-                        className="">
+                        bsStyle="primary" block>
                         OK
                     </Button>
                 </form>
