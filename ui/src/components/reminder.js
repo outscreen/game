@@ -114,6 +114,7 @@ class Reminder extends React.Component {
 const mapStateToProps = (state) => ({
     error: state.route.error,
     reminders: state.reminder.reminders,
+    reminderId: state.reminder.selectedReminder,
 });
 
 const mapDispatchToProps = (dispatch) => ({

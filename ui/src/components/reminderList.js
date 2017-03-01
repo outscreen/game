@@ -13,19 +13,33 @@ const reminderActions = require('../actions/reminder');
 const reminderHelpers = require('../helpers/reminder');
 
 class Profile extends React.Component {
-    markRead(_id) {
+    markRead(_id, e) {
+        e.preventDefault();
+        e.stopPropagation();
+
         reminderHelpers.update({_id, status: config.status.read})
             .then(() => this.props.reminderActions.reminderRead(_id));
+
+        return false;
     }
 
-    edit(_id) {
+    edit(_id, e) {
+        e.preventDefault();
+        e.stopPropagation();
+
         this.props.reminderActions.reminderSelected(_id);
         this.props.routeActions.routeChange('reminder');
+
+        return false;
     }
 
-    open(_id) {
-        this.props.reminderActions.reminderSelected(_id);
-        this.props.routeActions.routeChange('reminder');
+    open(item, e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        window.open(item.url);
+
+        return false;
     }
 
     render() {
@@ -33,9 +47,9 @@ class Profile extends React.Component {
             .filter((item) => item.location === this.props.location)
             .sort((a, b) => a.dueDate > b.dueDate)
             .map((item) => (
-                <ListGroupItem key={item._id}>
+                <ListGroupItem key={item._id} onClick={this.open.bind(this, item)}>
                     <span className="cell wide">{item.description}</span>
-                    <a href="#" className="cell" onClick={this.open.bind(this, item._id)}>
+                    <a href="#" className="cell" onClick={this.open.bind(this, item)}>
                         <i className="glyphicon glyphicon-share"/></a>
                     <a href="#" className="cell"
                        onClick={this.open.bind(this, item._id) && this.markRead.bind(this, item._id)}>

@@ -7,6 +7,7 @@ const add = (req, res) => {
     reminder.add({
         userUuid: req.session.userUuid,
         dueDate: req.body.dueDate,
+        url: req.body.url,
         location: req.body.location,
         description: req.body.description,
     }).then((reminderData) => {

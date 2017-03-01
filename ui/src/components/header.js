@@ -17,6 +17,7 @@ class Header extends React.Component {
     }
 
     addReminder() {
+        this.props.reminderActions.reminderSelected(null);
         this.props.routeActions.routeChange('reminder');
     }
 
