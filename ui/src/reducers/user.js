@@ -9,14 +9,14 @@ const initialState = {
 
 module.exports = createReducer(initialState, {
 
-    stateLoadSuccess(state, payload) {
+    userLoadSuccess(state, payload) {
         return Object.assign({}, state, {
             username: payload.username,
             loggedIn: true,
         });
     },
 
-    stateLoadFailure(state) {
+    userLoadFailure(state) {
         return Object.assign({}, state, {
             loggedIn: false,
         });

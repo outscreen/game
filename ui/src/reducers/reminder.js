@@ -12,23 +12,14 @@ const initialState = {
 
 module.exports = createReducer(initialState, {
 
-    stateLoadSuccess(state, payload) {
-        if (!payload.reminders) return state;
-        return Object.assign({}, state, { reminders: arrayToObj(payload.reminders, '_id') });
+    remindersLoadSuccess(state, payload) {
+        return Object.assign({}, state, {
+            reminders: arrayToObj(payload.reminders, '_id'),
+        });
     },
 
     logoutSuccess() {
         return Object.assign({}, initialState);
-    },
-
-    loginSuccess(state, payload) {
-        if (!payload.reminders) return state;
-        return Object.assign({}, state, { reminders: arrayToObj(payload.reminders, '_id') });
-    },
-
-    registerSuccess(state, payload) {
-        if (!payload.reminders) return state;
-        return Object.assign({}, state, { reminders: arrayToObj(payload.reminders, '_id') });
     },
 
     locationChanged(state, payload) {

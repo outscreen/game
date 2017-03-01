@@ -9,19 +9,6 @@ const routeChange = (destination) => {
     };
 };
 
-const stateLoadSuccess = (state) => {
-    return {
-        type: 'stateLoadSuccess',
-        payload: state,
-    };
-};
-
-const stateLoadFailure = () => {
-    return {
-        type: 'stateLoadFailure',
-    };
-};
-
 const actionFailure = (error) => {
     return {
         type: 'actionFailure',
@@ -39,6 +26,4 @@ module.exports = {
     routeChange,
     actionFailure,
     clear,
-    stateLoadSuccess,
-    stateLoadFailure,
 };

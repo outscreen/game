@@ -13,6 +13,17 @@ const reminderActions = require('../actions/reminder');
 const reminderHelpers = require('../helpers/reminder');
 
 class Profile extends React.Component {
+    constructor(props) {
+        super(props);
+
+        reminderHelpers.getByStatus(config.status.unread)
+            .then((data) => this.props.reminderActions.remindersLoadSuccess(data))
+            .catch((error) => {
+                console.log('error', error);
+                this.props.routeActions.actionFailure(error)
+            });
+    }
+
     markRead(_id, e) {
         e.preventDefault();
         e.stopPropagation();

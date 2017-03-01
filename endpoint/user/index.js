@@ -5,46 +5,27 @@ const reminder = require('../../models/reminder');
 const requestValidation = require('../../core/validate/request');
 
 //TODO set required params
-const login = (req, res) => {
-    const response = {};
+const login = (req, res) => User.getDbUser({
+    username: req.body.username,
+    password: req.body.password,
+}).then((userInfo) => {
+    req.session.userUuid = userInfo.uuid;
+    req.session.username = userInfo.username;
+    res.status(200).send({username: userInfo.username});
+}).catch((err) => {
+    console.error(err);
+    res.status(401).send('Invalid username or password');
+});
 
-    User.getDbUser({
-        username: req.body.username,
-        password: req.body.password,
-    }).catch((err) => {
-        console.error(err);
-        return Promise.reject({ status: 401, text: 'Invalid username or password' });
-    }).then((userInfo) => {
-        req.session.userUuid = userInfo.uuid;
-        req.session.username = userInfo.username;
-        response.username = userInfo.username;
-        return reminder.getUnread(userInfo.uuid)
-            .catch(() => Promise.resolve(null));
-    }).then((reminders) => {
-        response.reminders = reminders;
-        response.success = true;
-        res.status(200).send(response);
-    }).catch((err) => {
-        res.status(err.status).send(err.text);
-    });
-};
-
-const create = (req, res) => {
-    const response = {};
-
-    User.createDbUser({
-        username: req.body.username,
-        password: req.body.password,
-    }).then((userInfo) => {
-        req.session.userUuid = userInfo.uuid;
-        response.username = userInfo.username;
-        response.reminders = [];
-        response.success = true;
-        res.status(200).send(response);
-    }).catch((err) => {
-        res.status(400).send(err);
-    });
-};
+const create = (req, res) => User.createDbUser({
+    username: req.body.username,
+    password: req.body.password,
+}).then((userInfo) => {
+    req.session.userUuid = userInfo.uuid;
+    res.status(200).send({username: userInfo.username});
+}).catch((err) => {
+    res.status(400).send(err);
+});
 
 const logout = (req, res) => {
     delete req.session.userUuid;
@@ -53,12 +34,7 @@ const logout = (req, res) => {
 };
 
 const state = (req, res) => {
-    const response = { username: req.session.username, success: true };
-
-    reminder.getUnread(req.session.userUuid)
-        .catch(() => Promise.resolve(null))
-        .then((reminders) => (response.reminders = reminders))
-        .then(() => res.status(200).send(response));
+    res.status(200).send({username: req.session.username});
 };
 
 module.exports = [

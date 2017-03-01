@@ -34,6 +34,20 @@ const update = (req, res) => {
         })
 };
 
+const get = (req, res) => {
+    const params = {
+        userUuid: req.session.userUuid,
+    };
+    req.query.status && (params.status = req.query.status);
+    req.params.id && (params._id = req.params.id);
+    reminder.get(params)
+        .then((reminders) => res.status(200).send(reminders))
+        .catch((err) => {
+            console.error(err);
+            return res.status(500).send('Please try again later');
+        });
+};
+
 module.exports = [
     {
         url: '',
@@ -44,6 +58,11 @@ module.exports = [
         url: '',
         method: 'put',
         handler: update,
+    },
+    {
+        url: ':id?',
+        method: 'get',
+        handler: get,
     },
 ];
 

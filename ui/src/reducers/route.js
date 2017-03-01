@@ -15,7 +15,7 @@ module.exports = createReducer(initialState, {
         });
     },
 
-    stateLoadSuccess(state) {
+    userLoadSuccess(state) {
         return Object.assign({}, state, {
             previous: state.current,
             current: 'base',

@@ -5,6 +5,7 @@ const connect = require('react-redux').connect;
 const bindActionCreators = require('redux').bindActionCreators;
 
 const routeActions = require('../actions/route');
+const userActions = require('../actions/user');
 
 const Header = require('../components/header');
 const Login = require('../components/login');
@@ -17,9 +18,9 @@ class Index extends React.Component {
     componentWillMount() {
         this.props.routeActions.clear();
         userHelpers.getData()
-            .then((data) => this.props.routeActions.stateLoadSuccess(data))
+            .then((data) => this.props.userActions.userLoadSuccess(data))
             .catch(() => {
-                this.props.routeActions.stateLoadFailure();
+                this.props.userActions.userLoadFailure();
                 if (!this.props.username) {
                     return this.props.routeActions.routeChange('register');
                 }
@@ -63,6 +64,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     routeActions: bindActionCreators(routeActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch),
 });
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(Index);

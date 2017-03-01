@@ -20,8 +20,23 @@ const registerSuccess = (userInfo) => {
     };
 };
 
+const userLoadSuccess = (user) => {
+    return {
+        type: 'userLoadSuccess',
+        payload: user,
+    };
+};
+
+const userLoadFailure = () => {
+    return {
+        type: 'userLoadFailure',
+    };
+};
+
 module.exports = {
     loginSuccess,
     registerSuccess,
     logoutSuccess,
+    userLoadSuccess,
+    userLoadFailure,
 };

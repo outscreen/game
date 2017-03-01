@@ -12,7 +12,12 @@ const update = (params) => fetch('/reminder', {
     body: params,
 });
 
+const getByStatus = (status) => fetch(`/reminder/?status=${status}`, {
+    method: 'GET',
+});
+
 module.exports = {
     add,
     update,
+    getByStatus,
 };
