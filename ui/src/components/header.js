@@ -8,6 +8,9 @@ const routeActions = require('../actions/route');
 const userActions = require('../actions/user');
 const reminderActions = require('../actions/reminder');
 const userHelpers = require('../helpers/user');
+const reminderHelpers = require('../helpers/reminder');
+
+const config = require('../../config');
 
 const Location = require('./location');
 
@@ -38,6 +41,15 @@ class Header extends React.Component {
         return this.props.routeActions.routeChange('login');
     }
 
+    sync() {
+        reminderHelpers.getByStatus(config.status.unread)
+            .then((data) => this.props.reminderActions.remindersLoadSuccess(data))
+            .catch((error) => {
+                console.log('error', error);
+                this.props.routeActions.actionFailure(error)
+            });
+    }
+
     changeLocation(location) {
         this.props.reminderActions.locationChanged(location);
     }
@@ -61,6 +73,9 @@ class Header extends React.Component {
                 <div className="cell align-center">
                     <Location action={this.changeLocation.bind(this)} location={this.props.location}></Location>
                 </div>
+
+                {this.props.loggedIn && <div className="cell align-right"><a href="#" onClick={this.sync.bind(this)}>
+                    <i className="glyphicon glyphicon-refresh"/></a></div>}
 
                 {loginBtn}
             </div>

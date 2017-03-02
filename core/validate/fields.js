@@ -1,6 +1,14 @@
 'use strict';
 
 const validate = require('validate.js');
+const moment = require('moment');
+
+validate.extend(validate.validators.datetime, {
+    parse: function (value) {
+        return +moment(value);
+    },
+    format: function () {}
+});
 
 const username = {
     presence: true,

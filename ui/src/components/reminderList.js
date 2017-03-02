@@ -20,7 +20,8 @@ class Profile extends React.Component {
             .then((data) => this.props.reminderActions.remindersLoadSuccess(data))
             .catch((error) => {
                 console.log('error', error);
-                this.props.routeActions.actionFailure(error)
+                if (error.status === 401) return;
+                this.props.routeActions.actionFailure('Failed to load reminders. Showing cached data.')
             });
     }
 
@@ -74,7 +75,8 @@ class Profile extends React.Component {
 
         return (
             <ListGroup className="reminder-list">
-                {listItems}
+                {listItems.length ? listItems : (<div className="alert alert-success" role="alert">
+                    You have no unread reminders</div>)}
             </ListGroup>
         );
     }

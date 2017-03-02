@@ -1,6 +1,8 @@
 'use strict';
 
 const reminder = require('../../models/reminder');
+const requestValidation = require('../../core/validate/request');
+
 
 //TODO set required params
 const add = (req, res) => {
@@ -53,16 +55,28 @@ module.exports = [
         url: '',
         method: 'post',
         handler: add,
+        rules: [
+            requestValidation.loggedIn(),
+            requestValidation.fieldsValid(['dueDate', 'url', 'description']),
+        ],
     },
     {
         url: '',
         method: 'put',
         handler: update,
+        rules: [
+            requestValidation.loggedIn(),
+            requestValidation.fieldsValid(['dueDate', 'url', 'description']),
+        ],
     },
     {
         url: ':id?',
         method: 'get',
         handler: get,
+        rules: [
+            requestValidation.loggedIn(),
+            requestValidation.fieldsValid(['dueDate', 'url', 'description']),
+        ],
     },
 ];
 
