@@ -45,8 +45,9 @@ class Reminder extends React.Component {
         return {
             value: this.state[key],
             onChange: (event) => {
+                const value = event.target && event.target.value || event;
                 this.setState({
-                    [key]: event.target.value,
+                    [key]: value,
                     [`${key}Touched`]: true,
                 }, this.validate.bind(this));
             },
@@ -103,7 +104,7 @@ class Reminder extends React.Component {
                     />
                 </InputGroup>
 
-                <Button onClick={this.onSubmit.bind(this)}>
+                <Button onClick={this.onSubmit.bind(this)} disabled={!!this.state.formErrors}>
                     { this.state._id ? 'Edit' : 'Add' } reminder
                 </Button>
             </div>
