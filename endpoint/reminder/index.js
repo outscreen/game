@@ -41,6 +41,7 @@ const get = (req, res) => {
         userUuid: req.session.userUuid,
     };
     req.query.status && (params.status = req.query.status);
+    req.query.location && (params.location = req.query.location);
     req.params.id && (params._id = req.params.id);
     reminder.get(params)
         .then((reminders) => res.status(200).send(reminders))

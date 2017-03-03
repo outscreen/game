@@ -1,3 +1,4 @@
+require('./polyfill');
 const config = require('../config');
 const reminderHelpers = require('./helpers/reminder');
 
@@ -13,13 +14,22 @@ if (window.chrome && window.chrome.notifications) {
 }
 
 
-function getReminders () {
-    return reminderHelpers.getByStatus(config.status.unread)
-        .catch(() => {
-            const store = localStorage.store ? JSON.parse(localStorage.store) : null;
-            if (!store || !store.reminder.reminders) return [];
-            return store.reminder.reminders;
-        });
+function getReminders() {
+    const store = localStorage.store ? JSON.parse(localStorage.store) : null;
+
+    if (!store || !store.reminder) return Promise.resolve([]);
+
+    const location = store.reminder.currentLocation;
+
+    return reminderHelpers.getBy({
+        status: config.status.unread,
+        location,
+    }).catch(() => {
+
+        if (!store || !store.reminder.reminders) return [];
+        const reminders = Object.values(store.reminder.reminders);
+        return reminders.filter((reminder) => reminder.location === location);
+    });
 }
 
 function checkDue() {
@@ -27,7 +37,7 @@ function checkDue() {
         .then(reminders => {
             const updatedNotified = {};
             let showNotification = false;
-            const overdueReminders = Object.values(reminders).filter((reminder) => {
+            const overdueReminders = reminders.filter((reminder) => {
                 if (reminder.dueDate > Date.now()) return;
                 updatedNotified[reminder._id] = reminder;
                 if (!notified[reminder._id]) showNotification = true;

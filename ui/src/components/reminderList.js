@@ -16,7 +16,7 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
 
-        reminderHelpers.getByStatus(config.status.unread)
+        reminderHelpers.getBy({status: config.status.unread})
             .then((data) => this.props.reminderActions.remindersLoadSuccess(data))
             .catch((error) => {
                 console.log('error', error);
