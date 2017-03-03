@@ -67,8 +67,9 @@ class Header extends React.Component {
             <div className="head table">
                 <div className="cell"><a href="#" onClick={this.goHome.bind(this)}>
                     <i className="glyphicon glyphicon glyphicon-th-list"/></a></div>
-                <div className="cell"><a href="#" onClick={this.addReminder.bind(this)}>
-                    <i className="glyphicon glyphicon-plus-sign"/></a></div>
+
+                {this.props.loggedIn && <div className="cell"><a href="#" onClick={this.addReminder.bind(this)}>
+                    <i className="glyphicon glyphicon-plus-sign"/></a></div>}
 
                 <div className="cell align-center">
                     <Location action={this.changeLocation.bind(this)} location={this.props.location}></Location>

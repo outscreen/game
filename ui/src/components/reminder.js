@@ -31,6 +31,13 @@ class Reminder extends Form {
             dueDate:  new Date(reminder && reminder.dueDate || Date.now() + 15 * 60 * 1000),
             location: reminder && reminder.location || config.defaultLocation,
         };
+
+        if (!this.state._id && window.chrome.tabs) {
+            window.chrome.tabs.getSelected((tab) => this.setState({
+                url: tab.url,
+                description: tab.title,
+            }));
+        }
     }
 
     onSubmit() {

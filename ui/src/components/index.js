@@ -19,16 +19,16 @@ class Index extends React.Component {
         this.props.routeActions.clear();
         userHelpers.getData()
             .then((data) => this.props.userActions.userLoadSuccess(data))
-            .catch(() => {
-                this.props.userActions.userLoadFailure();
-                if (!this.props.username) {
-                    return this.props.routeActions.routeChange('register');
-                }
-            });
+            .catch(() => this.props.userActions.userLoadFailure());
+    }
+
+    isLoggedIn() {
+        if (this.props.loggedIn) return true;
+        this.props.routeActions.routeChange(this.props.username ? 'login' : 'register');
     }
 
     render() {
-        var MainComponent;
+        var MainComponent = '';
 
         switch (this.props.route) {
             case 'base':
@@ -39,7 +39,7 @@ class Index extends React.Component {
                 MainComponent = (<Login/>);
                 break;
             case 'reminder':
-                MainComponent = (<Reminder reminderId={this.props.selectedReminder}/>);
+                this.isLoggedIn() && (MainComponent = (<Reminder reminderId={this.props.selectedReminder}/>));
                 break;
             default:
                 console.error('Unknown route, reset state', this.props.route);
@@ -58,6 +58,7 @@ class Index extends React.Component {
 
 const mapStateToProps = (state) => ({
     username: state.user.username,
+    loggedIn: state.user.loggedIn,
     route: state.route.current,
     selectedReminder: state.reminder.selectedReminder,
 });
