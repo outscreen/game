@@ -64,9 +64,9 @@ db.ready
         });
 
         // Start server
-        // TODO remove hardcoded port
-        app.listen(1717, () => {
-            console.log('http://127.0.0.1:1717')
+        const port = process.env.port || 1717;
+        app.listen(port, () => {
+            console.log(`http://127.0.0.1:${port}`)
         })
     })
     .catch(console.log);
