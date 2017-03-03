@@ -67,7 +67,7 @@ function checkDue() {
 function createNotification(id, text, buttons) {
     const params = {
         type: 'basic',
-        iconUrl: 'icon.png',
+        iconUrl: 'notification.png',
         message: text,
         title: 'Scheduled reminder(s):',
     };
