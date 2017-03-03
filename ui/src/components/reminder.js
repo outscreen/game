@@ -1,7 +1,7 @@
 'use strict';
 
-
 const React = require('react');
+
 const connect = require('react-redux').connect;
 const bindActionCreators = require('redux').bindActionCreators;
 const DateTimePicker = require('react-widgets').DateTimePicker;
@@ -9,19 +9,16 @@ const InputGroup = require('react-bootstrap').InputGroup;
 const FormControl = require('react-bootstrap').FormControl;
 const Button = require('react-bootstrap').Button;
 const Location = require('./location');
+const Form = require('./form');
 
 const config = require('../../config');
 const reminderActions = require('../actions/reminder');
 const reminderHelpers = require('../helpers/reminder');
 
-const validationRules = require('../../../core/validate/fields');
-const validate = require('validate.js');
 
-
-// TODO add base class for forms with validation logic
-class Reminder extends React.Component {
+class Reminder extends Form {
     constructor(props) {
-        super(props);
+        super(props, ['url', 'description']);
 
         const reminder = this.props.reminders[this.props.reminderId];
 
@@ -39,40 +36,6 @@ class Reminder extends React.Component {
     onSubmit() {
         (this.state._id ? reminderHelpers.update(this.state) : reminderHelpers.add(this.state))
             .then((reminder) => this.props.reminderActions.reminderSuccess(reminder));
-    }
-
-    handleChange(key) {
-        return {
-            value: this.state[key],
-            onChange: (event) => {
-                const value = event.target && event.target.value || event;
-                this.setState({
-                    [key]: value,
-                    [`${key}Touched`]: true,
-                }, this.validate.bind(this));
-            },
-        };
-    }
-
-    validate() {
-        this.setState({
-            formErrors: validate(this.state, {
-                url: validationRules.url,
-                description: validationRules.description,
-            })
-        });
-    }
-
-    getError(key) {
-        const error = this.state[`${key}Touched`] && this.state.formErrors && this.state.formErrors[key] && (
-                <p className="input-error">* {this.state.formErrors[key][0]}</p>);
-        return error || (<p className="input-error invisible">Empty</p>);
-    }
-
-    getValidityClass(key) {
-        if (!this.state[`${key}Touched`]) return 'pristine';
-        if (this.state.formErrors && this.state.formErrors[key] && this.state.formErrors[key][0]) return 'invalid';
-        return 'valid';
     }
 
     render() {

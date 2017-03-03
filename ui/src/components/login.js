@@ -6,25 +6,20 @@ const bindActionCreators = require('redux').bindActionCreators;
 const InputGroup = require('react-bootstrap').InputGroup;
 const FormControl = require('react-bootstrap').FormControl;
 const Button = require('react-bootstrap').Button;
-
-const validate = require('validate.js');
+const Form = require('./form');
 
 const routeActions = require('../actions/route');
 const userActions = require('../actions/user');
 const userHelpers = require('../helpers/user');
 
-const validationRules = require('../../../core/validate/fields');
 
-class Login extends React.Component {
+class Login extends Form {
     constructor(props) {
-        super(props);
+        super(props, ['username', 'password']);
 
         this.state = {
             username: this.props.username || '',
             password: this.props.password || '',
-            usernameTouched: false,
-            passwordTouched: false,
-            formErrors: undefined,
         };
 
         this.getAction = () => (this.isRegister && userHelpers.create) || (this.isLogin && userHelpers.login);
@@ -54,39 +49,6 @@ class Login extends React.Component {
 
     showLogin() {
         this.props.routeActions.routeChange('login');
-    }
-
-    handleChange(key) {
-        return {
-            value: this.state[key],
-            onChange: (event) => {
-                this.setState({
-                    [key]: event.target.value,
-                    [`${key}Touched`]: true,
-                }, this.validate.bind(this));
-            },
-        };
-    }
-
-    validate() {
-        this.setState({
-            formErrors: validate(this.state, {
-                username: validationRules.username,
-                password: validationRules.password,
-            })
-        });
-    }
-
-    getError(key) {
-        const error = this.state[`${key}Touched`] && this.state.formErrors && this.state.formErrors[key] && (
-            <p className="input-error">* {this.state.formErrors[key][0]}</p>);
-        return error || (<p className="input-error invisible">Empty</p>);
-    }
-
-    getValidityClass(key) {
-        if (!this.state[`${key}Touched`]) return 'pristine';
-        if (this.state.formErrors && this.state.formErrors[key] && this.state.formErrors[key][0]) return 'invalid';
-        return 'valid';
     }
 
     render() {
