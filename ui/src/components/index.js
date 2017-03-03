@@ -27,12 +27,17 @@ class Index extends React.Component {
         this.props.routeActions.routeChange(this.props.username ? 'login' : 'register');
     }
 
+    hasUsername() {
+        if (this.props.username) return true;
+        this.props.routeActions.routeChange('register');
+    }
+
     render() {
         var MainComponent = '';
 
         switch (this.props.route) {
             case 'base':
-                MainComponent = (<Profile/>);
+                this.hasUsername() && (MainComponent = (<Profile/>));
                 break;
             case 'login':
             case 'register':
