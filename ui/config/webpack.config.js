@@ -16,11 +16,12 @@ module.exports = {
 
     entry: {
         app: path.resolve(__dirname, '../src/app'),
+        background: path.resolve(__dirname, '../src/background'),
     },
 
     output: {
         path: path.resolve(__dirname, '../../public/build/'),
-        filename: 'app.js',
+        filename: '[name].js',
     },
 
     plugins,
