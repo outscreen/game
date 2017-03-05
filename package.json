@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run build:webpack",
-    "build:webpack": "webpack --config ./ui/config/webpack.config.js"
+    "build:webpack": "webpack --config ./ui/config/webpack.config.js",
+    "start": "node ./index.js",
+    "postinstall": "npm run build && npm run start"
   },
   "repository": {
     "type": "git",

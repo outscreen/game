@@ -1,9 +1,9 @@
 'use strict';
 
 const isoFetch = require('isomorphic-fetch');
+const config = require('../../config');
 
-// TODO change path
-const fetch = (url, params) => isoFetch(`http://127.0.0.1:1717${url}`, {
+const fetch = (url, params) => isoFetch(`${config.serverUrl}${url}`, {
     method: params.method,
     headers: {
         'Content-Type': 'application/json'
