@@ -67,3 +67,15 @@ body {
 .invisible {
     visibility: hidden;
 }
+
+form .input-group button:first-of-type {
+    border-radius: 0;
+}
+
+form .input-group input:first-of-type {
+    border-radius: 0 4px 4px 0;
+}
+
+.margin-bottom {
+    margin-bottom: 10px;
+}

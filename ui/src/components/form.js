@@ -17,7 +17,7 @@ class Form extends React.Component {
         return {
             value: this.state[key],
             onChange: (event) => {
-                const value = event.target && event.target.value || event;
+                const value = event instanceof Object ? event.target && event.target.value : event;
                 this.setState({
                     [key]: value,
                     [`${key}Touched`]: true,

@@ -66,7 +66,7 @@ db.ready
         // Start server
         const port = process.env.port || 1717;
         app.listen(port, () => {
-            console.log(`${config.serverUrl}:${port}`)
+            console.log(`${config.serverUrl}`)
         })
     })
     .catch(console.log);

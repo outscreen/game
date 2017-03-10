@@ -47,7 +47,7 @@ class Reminder extends Form {
 
     render() {
         return (
-            <div className="content">
+            <form className="content">
                 <InputGroup>
                     <InputGroup.Addon className={this.getValidityClass('url')}>URL</InputGroup.Addon>
                     <FormControl type="text" placeholder="http://..." {...this.handleChange('url')} />
@@ -60,12 +60,12 @@ class Reminder extends Form {
                 </InputGroup>
                 { this.getError('description') }
 
-                <InputGroup>
+                <InputGroup className="location margin-bottom">
                     <InputGroup.Addon>Location</InputGroup.Addon>
                     <Location action={(id) => this.setState({ location: id })} location={this.state.location}/>
                 </InputGroup>
 
-                <InputGroup>
+                <InputGroup className="margin-bottom">
                     <InputGroup.Addon>Due</InputGroup.Addon>
                     <DateTimePicker
                         defaultValue={new Date()}
@@ -77,7 +77,7 @@ class Reminder extends Form {
                 <Button onClick={this.onSubmit.bind(this)} disabled={!!this.state.formErrors}>
                     { this.state._id ? 'Edit' : 'Add' } reminder
                 </Button>
-            </div>
+            </form>
         );
     }
 }
